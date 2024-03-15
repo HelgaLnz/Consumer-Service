@@ -1,13 +1,12 @@
 package com.example.consumerservice.controller;
 
-import com.example.consumerservice.service.CategoryService;
 import com.example.consumerservice.dto.CategoryDto;
 import com.example.consumerservice.dto.PageableResponseDto;
+import com.example.consumerservice.service.CategoryService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.client.RestClientException;
 
 @RestController
 @RequiredArgsConstructor
@@ -30,7 +29,7 @@ public class CategoryClientController {
   }
 
   @PostMapping("/categories")
-  public ResponseEntity<String> createCategory(@RequestBody CategoryDto category) {
+  public ResponseEntity<?> createCategory(@RequestBody CategoryDto category) {
     return new ResponseEntity<>(categoryService.create(category), HttpStatus.CREATED);
   }
 
@@ -42,11 +41,5 @@ public class CategoryClientController {
   @DeleteMapping("/categories/{id}")
   public ResponseEntity<CategoryDto> deleteCategory(@PathVariable Integer id) {
     return categoryService.delete(id);
-  }
-
-  @ExceptionHandler(RestClientException.class)
-  public ResponseEntity<?> handle(RestClientException e) {
-    return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-      .body(e.getMessage());
   }
 }
