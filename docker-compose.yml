@@ -5,11 +5,11 @@ services:
       context: .
     container_name: "consumer-service-app"
     networks:
-      - back
+      - supplier-service_back
     ports:
       - "8081:8081"
     environment:
       - SUPPLIER_URL=http://app-supplier:8080/api/v1
 networks:
-  back:
-    driver: bridge
+  supplier-service_back:
+    external: true
